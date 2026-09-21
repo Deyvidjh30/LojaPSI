@@ -1,4 +1,7 @@
-from loja.models import *
+from django.contrib.auth.models import User
+from django.db import models
+from .Produto import Produto
+
 
 class Favorito(models.Model):
     user = models.ForeignKey(User, null=True, related_name='favoritos', on_delete=models.CASCADE)

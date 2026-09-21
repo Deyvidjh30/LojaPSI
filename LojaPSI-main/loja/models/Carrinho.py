@@ -1,4 +1,7 @@
-from loja.models import *
+from django.contrib.auth.models import User
+from django.db import models
+from .Produto import Produto
+
 
 class Carrinho(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
@@ -8,11 +11,12 @@ class Carrinho(models.Model):
 
     @property
     def total(self):
-        return sum(item.quantidade * item.preco for item in self.itens.all())
-    
+        return sum((item.total for item in self.itens.all()), 0)
+
     def __str__(self):
-        return f'{self.criado_em}'
-    
+        return str(self.criado_em)
+
+
 class CarrinhoItem(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
     carrinho = models.ForeignKey(Carrinho, null=True, related_name='itens', on_delete=models.SET_NULL)
@@ -22,7 +26,9 @@ class CarrinhoItem(models.Model):
 
     @property
     def total(self):
+        if self.produto is None:
+            return 0
         return self.quantidade * self.preco
-    
+
     def __str__(self):
-        return f'{self.produto}'
+        return str(self.produto)

@@ -1,59 +1,13 @@
 {% extends "base.html" %}
-{% load static %}
-
-{% block title %}Início{% endblock %}
-
-{% block styles %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-{% endblock %}
-
+{% block title %}Excluir produto{% endblock %}
 {% block content %}
-<div id="content">
-    <div class="container">
-        <form method="POST" action="{% url 'delete_produto_postback' %}"> <!-- Como isso acessa o delete? o action -->
-            {% csrf_token %}
-            <div class="row">
-                <input type="hidden" value="{{produto.id}}" name="id" readonly>
-                <h5 for="Produto" class="col-md-2">Produto</h5>
-                <input value="{{produto.produtoo}}" name="Produto" readonly>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    {% if produto.destaque %}
-                        <input type="checkbox" checked name="destaque" disabled>
-                    {% else %}
-                        <input type="checkbox" name="destaque" disabled>
-                    {% endif %}
-                    <label for="destaque">Destaque</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    {% if produto.promocao %}
-                        <input type="checkbox" checked name="promocao" disabled>
-                    {% else %}
-                        <input type="checkbox" name="promocao" disabled>
-                    {% endif %}
-                    <label for="promocao">Promoção</label>
-                </div>
-            </div>
-            <div class="row">
-                <label for="msgPromocao" class="col-md-2">Msg Promoção</label>
-                <input value="{{produto.msgPromocao}}" name="msgPromocao">
-            </div>
-            <div class="row">
-                <button type="submit" class="btn btn-danger col-md-2 mt-3 mr-2">
-                    <i class="fa fa-check"></i> Excluir
-                </button>
-                <a href="{% url 'home' %}" class="btn bg-secondary col-md-2 mt-3">
-                    <i class="fa fa-rotate-left"></i> Retornar
-                </a>
-            </div>
-        </form>
-    </div>
-</div>
-{% endblock %}
-
-{% block scripts %}
-    <script src="{% static 'js/home.js' %}"></script>
+<div id="content"><div class="container">
+    <h2>Excluir produto</h2>
+    <div class="alert alert-warning">Tem certeza que deseja excluir <strong>{{ produto.produtoo }}</strong>?</div>
+    <form method="POST" action="{% url 'delete_produto_postback' %}">
+        {% csrf_token %}<input type="hidden" name="id" value="{{ produto.id }}">
+        <button type="submit" class="btn btn-danger">Excluir</button>
+        <a href="{% url 'produtos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div></div>
 {% endblock %}
