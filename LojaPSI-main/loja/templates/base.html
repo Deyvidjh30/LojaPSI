@@ -1,10 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Adicione as linhas a seguir -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
@@ -17,25 +16,33 @@
 <header>
     <nav class="navbar justify-content-end navbar-expand-lg">
         <ul class="nav">
-            <li class="nav-item"><a class="nav-link" href="/"><i class="fa fa-home"></i>
-            Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/categoria"><i class="fa
-            fa-book"></i>Categoria</a></li>
-            <li class="nav-item"><a class="nav-link" href="/fabricante"><i class="fa
-            fa-book"></i> Fabricante</a></li>
-            <li class="nav-item"><a class="nav-link" href="/produto"><i class="fa
-            fa-book"></i> Produto</a></li>
+            <li class="nav-item"><a class="nav-link" href="/"><i class="fa fa-home"></i> Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/categoria"><i class="fa fa-book"></i> Categoria</a></li>
+            <li class="nav-item"><a class="nav-link" href="/fabricante"><i class="fa fa-book"></i> Fabricante</a></li>
+            <li class="nav-item"><a class="nav-link" href="/produto"><i class="fa fa-book"></i> Produto</a></li>
             {% if user.is_authenticated %}
-            <li class="nav-item"><a class="nav-link" href="/usuario"><i class="fa fa-book"></i>
-                Usuário</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{% url 'logout' %}"> <iclass="fa fa-sign-out></iclass=> Sair</a></li>
+            <li class="nav-item"><a class="nav-link" href="/usuario"><i class="fa fa-user"></i> Usuário</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'lista_favoritos' %}"><i class="fa fa-heart"></i> Favoritos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Sair</a></li>
             {% else %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'register' %}"><i class="fa fa-edit"></i>Registrar</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'register' %}"><i class="fa fa-edit"></i> Registrar</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Entrar</a></li>
             {% endif %}
         </ul>
     </nav>
 </header>
+
+{% if messages %}
+<div class="container mt-2">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
 {% block content %}{% endblock %}
 
 <footer class="page-footer font-small blue">
